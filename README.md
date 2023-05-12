@@ -27,13 +27,13 @@ function App() {
   return (
     <AsyncTimer.Provider>
       <ClickCounter.Provider>
-        Total clicks <ShowClicks />
+        TOTAL CLICKS <ShowClicks />
         <ClickCounter.Provider>
-          Click A totoal: <ShowClicks />
+          CLICK A TOTAL: <ShowClicks />
           <AddButton>Button A</AddButton>
         </ClickCounter.Provider>
         <ClickCounter.Provider>
-          Click B total: <ShowClicks />
+          CLICK B TOTAL: <ShowClicks />
           <AddButton>Button B</AddButton>
         </ClickCounter.Provider>
       </ClickCounter.Provider>
@@ -58,3 +58,61 @@ function AddButton({children}) {
   return <button onClick={handleClick}>{children}</button>;
 }
 ```
+In the above example, clicking `Button A` will add `1` to the totals of `CLICK A TOTAL`, and `TOTAL CLICKS`. Likewise clicking `Button B` will update the totals of `CLICK B TOTAL` and `TOTAL CLICKS`. Any nested `ClickCounter.add` call will update the total of itself _and_ any composed parents.
+
+---
+# Docs
+
+## `const MyCounter = createCounter()`
+
+Creates a custom, nestable React `Context` and `Provider`.
+
+**Returns**
+```typescript
+{
+  Context: React.Context<{
+    add: (n: number = 1) => void;
+    count: number;
+  }>
+  Provider: (props: React.PropsWithChildren) => React.JSX.Element;
+}
+```
+**Use**
+```jsx
+import { createCounter } from '@react-noui/create-counter';
+
+export const MyCounter = createCounter();
+export function MyCountedThing() {
+  return (
+    <MyCounter.Provider>
+      {/**/}
+    </MyCounter.Provider>
+  )
+}
+```
+
+## `useCounter(MyCounter)`
+
+React hook and shortcut to `React.useContext(MyCounter.Context)`.
+
+**Returns**
+
+```typescript
+const context: {
+  count: number;
+  add: (n: number = 1) => void;
+} = useCounter(MyCounter);
+```
+
+**Use**
+```jsx
+function ShowMyCount() {
+  const { count, add } = useCounter(MyCounter);
+  return (
+    <button onClick={() => add()}>
+      I've been clicked {count} times
+    </button>
+  );
+}
+```
+

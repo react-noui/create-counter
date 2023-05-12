@@ -7,9 +7,9 @@ import React, {
 } from 'react';
 
 /**
- * Interface for `useContext(MyCounter);`. See `makeCounterContext()`.
+ * Interface for `useContext(MyCounter);`. See `createCounter()`.
  */
-interface ICounterContext {
+interface ICreateCounter {
   count: number;
   /**
    * Adds n to context.count
@@ -18,21 +18,21 @@ interface ICounterContext {
   add: (n?: number) => void;
 }
 
-export interface CounterContext {
-  Context: React.Context<ICounterContext>;
+export interface CreateCounter {
+  Context: React.Context<ICreateCounter>;
   Provider: (props: PropsWithChildren) => JSX.Element;
 }
 
 /**
- * Make a CounterContext.
+ * Create a CreateCounter.
  * @example
- * const ClickCounter = makeCounterContext();
+ * const ClickCounter = createCounter();
  * function Parent() {
  *   return <ClickCounter.Provider><Consumer /></ClickCounter.Provider>
  * }
  */
-export function makeCounterContext(): CounterContext {
-  const Context = createContext<ICounterContext>({
+export function createCounter(): CreateCounter {
+  const Context = createContext<ICreateCounter>({
     count: 0,
     add: () => undefined,
   });
@@ -52,9 +52,9 @@ export function makeCounterContext(): CounterContext {
 }
 
 /**
- * Use counter from `makeCounterContext()`.
+ * Use counter from `createCounter()`.
  * @example
- * const ClickCounter = makeCounterContext();
+ * const ClickCounter = createCounter();
  * function Parent() {
  *   return <ClickCounter.Provider><Consumer /></ClickCounter.Provider>
  * }
@@ -64,6 +64,6 @@ export function makeCounterContext(): CounterContext {
  *   //...
  * }
  */
-export function useCounter(counter: CounterContext) {
+export function useCounter(counter: CreateCounter) {
   return useContext(counter.Context);
 }
