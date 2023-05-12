@@ -1,7 +1,7 @@
 {
   "name": "@react-noui/create-counter",
-  "version": "1.0.2",
-  "description": "React form context/provider",
+  "version": "0.0.1",
+  "description": "React counter context/provider",
   "main": "lib/index.js",
   "author": "taystack",
   "license": "MIT",
